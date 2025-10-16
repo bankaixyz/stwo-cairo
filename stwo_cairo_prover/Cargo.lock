@@ -622,7 +622,6 @@ dependencies = [
  "rayon",
  "serde",
  "serde_json",
- "sonic-rs",
  "starknet-ff",
  "starknet-types-core",
  "stwo",
