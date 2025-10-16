@@ -4,13 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-std = ["stwo-cairo-adapter/std"]
+#std = ["stwo-cairo-adapter/std"]
 
 [dependencies]
 cairo-air.workspace = true
 clap.workspace = true
 log.workspace = true
 serde.workspace = true
+serde_json.workspace = true
 starknet-ff.workspace = true
 stwo_cairo_prover.workspace = true
 stwo_cairo_utils.workspace = true
@@ -19,4 +20,5 @@ stwo-cairo-serialize.workspace = true
 stwo.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
-sonic-rs = { version = "0.3.17" }
+#sonic-rs = { version = "0.3.17" }
+

@@ -223,7 +223,7 @@ pub fn create_and_serialize_proof(
         pcs_config,
         preprocessed_trace,
     } = match proof_params_json {
-        Some(path) => sonic_rs::from_str(&std::fs::read_to_string(&path)?)?,
+        Some(path) => serde_json::from_str(&std::fs::read_to_string(&path)?)?,
         None => default_prod_prover_parameters(),
     };
 
@@ -309,7 +309,7 @@ pub mod tests {
                 .map(|felt| format!("0x{felt:x}"))
                 .collect();
             proof_file
-                .write_all(sonic_rs::to_string_pretty(&proof_hex).unwrap().as_bytes())
+                .write_all(serde_json::to_string_pretty(&proof_hex).unwrap().as_bytes())
                 .unwrap();
             let expected_proof_file = get_proof_file_path("test_prove_verify_ret_opcode");
 
@@ -422,7 +422,7 @@ pub mod tests {
                 .map(|felt| format!("0x{felt:x}"))
                 .collect();
             proof_file
-                .write_all(sonic_rs::to_string_pretty(&proof_hex).unwrap().as_bytes())
+                .write_all(serde_json::to_string_pretty(&proof_hex).unwrap().as_bytes())
                 .unwrap();
 
             let expected_proof_file =

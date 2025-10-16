@@ -100,7 +100,7 @@ enum Error {
     #[error("Proving failed: {0}")]
     Proving(#[from] ProvingError),
     #[error("Serialization failed: {0}")]
-    Serializing(#[from] sonic_rs::error::Error),
+    Serializing(#[from] serde_json::error::Error),
     #[error("Verification failed: {0}")]
     Verification(#[from] CairoVerificationError),
     #[error("VM import failed: {0}")]
@@ -127,7 +127,7 @@ fn run(args: impl Iterator<Item = String>) -> Result<(), Error> {
         pcs_config,
         preprocessed_trace,
     } = match args.params_json {
-        Some(path) => sonic_rs::from_str(&read_to_string(&path)?)?,
+        Some(path) => serde_json::from_str(&read_to_string(&path)?)?,
         None => default_prod_prover_parameters(),
     };
 
@@ -170,7 +170,7 @@ where
     let span = span!(Level::INFO, "Serialize proof").entered();
     match proof_format {
         ProofFormat::Json => {
-            proof_file.write_all(sonic_rs::to_string_pretty(&proof)?.as_bytes())?;
+            proof_file.write_all(serde_json::to_string_pretty(&proof)?.as_bytes())?;
         }
         ProofFormat::CairoSerde => {
             let mut serialized: Vec<starknet_ff::FieldElement> = Vec::new();
@@ -181,7 +181,7 @@ where
                 .map(|felt| format!("0x{felt:x}"))
                 .collect();
 
-            proof_file.write_all(sonic_rs::to_string_pretty(&hex_strings)?.as_bytes())?;
+            proof_file.write_all(serde_json::to_string_pretty(&hex_strings)?.as_bytes())?;
         }
     }
     span.exit();
